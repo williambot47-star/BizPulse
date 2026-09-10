@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="BizPulse — a modern small-business financial dashboard." />
+  <title>BizPulse Financial Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand"><span class="brand-mark">B</span><span>BizPulse</span></div>
+    <nav>
+      <button class="nav-item active" data-view="overview">▦ <span>Overview</span></button>
+      <button class="nav-item" data-view="transactions">↕ <span>Transactions</span></button>
+      <button class="nav-item" data-view="analytics">◒ <span>Analytics</span></button>
+      <button class="nav-item" data-view="budget">◎ <span>Budget</span></button>
+    </nav>
+    <div class="sidebar-bottom">
+      <button class="nav-item" id="themeBtn">◐ <span>Toggle theme</span></button>
+      <div class="business-card">
+        <div class="avatar">AB</div>
+        <div><strong>Acme Business</strong><small>Owner dashboard</small></div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div>
+        <div class="eyebrow">FINANCIAL CONTROL CENTER</div>
+        <h1 id="pageTitle">Business overview</h1>
+      </div>
+      <div class="top-actions">
+        <label class="search"><span>⌕</span><input id="searchInput" placeholder="Search transactions..." /></label>
+        <button class="icon-btn" id="exportBtn" title="Export CSV">⇩</button>
+        <button class="primary-btn" id="addBtn">＋ Add transaction</button>
+      </div>
+    </header>
+
+    <section id="overviewView" class="view">
+      <div class="date-row">
+        <div>
+          <span class="muted">Reporting period</span>
+          <strong>September 2026</strong>
+        </div>
+        <select id="periodSelect">
+          <option value="month">This month</option>
+          <option value="quarter">This quarter</option>
+          <option value="year">This year</option>
+        </select>
+      </div>
+
+      <div class="metrics">
+        <article class="metric"><div class="metric-label">Revenue <span class="trend positive">↑ 12.4%</span></div><div class="metric-value" id="revenueMetric">$48,620</div><div class="spark" data-values="24,30,27,36,33,41,45,43,49"></div></article>
+        <article class="metric"><div class="metric-label">Expenses <span class="trend negative">↑ 4.8%</span></div><div class="metric-value" id="expenseMetric">$21,380</div><div class="spark" data-values="20,22,19,25,24,27,26,29,31"></div></article>
+        <article class="metric"><div class="metric-label">Net profit <span class="trend positive">↑ 19.2%</span></div><div class="metric-value" id="profitMetric">$27,240</div><div class="spark" data-values="17,21,20,27,25,30,34,33,39"></div></article>
+        <article class="metric"><div class="metric-label">Cash balance <span class="trend positive">Healthy</span></div><div class="metric-value">$83,460</div><div class="metric-sub">Runway: <b>3.9 months</b></div><div class="progress"><i style="width:78%"></i></div></article>
+      </div>
+
+      <div class="grid-main">
+        <article class="panel chart-panel">
+          <div class="panel-head"><div><h2>Cash flow</h2><p>Money in vs. money out</p></div><div class="legend"><span><i class="dot income"></i>Income</span><span><i class="dot expense"></i>Expenses</span></div></div>
+          <canvas id="cashChart" height="260"></canvas>
+        </article>
+        <article class="panel">
+          <div class="panel-head"><div><h2>Expense mix</h2><p>Where your money is going</p></div></div>
+          <div class="donut-wrap"><canvas id="donutChart" width="210" height="210"></canvas><div class="donut-center"><b>44%</b><span>Payroll</span></div></div>
+          <div id="expenseLegend" class="expense-legend"></div>
+        </article>
+      </div>
+
+      <div class="grid-bottom">
+        <article class="panel">
+          <div class="panel-head"><div><h2>Recent transactions</h2><p>Latest activity</p></div><button class="text-btn" data-view-link="transactions">View all →</button></div>
+          <div class="table-wrap"><table><thead><tr><th>Date</th><th>Description</th><th>Category</th><th>Status</th><th class="right">Amount</th></tr></thead><tbody id="recentBody"></tbody></table></div>
+        </article>
+        <article class="panel health">
+          <div class="panel-head"><div><h2>Business health</h2><p>Key signals from your numbers</p></div><span class="health-score">86/100</span></div>
+          <div class="health-item"><span><b>Profit margin</b><small>Strong for your industry</small></span><b>56.0%</b></div>
+          <div class="health-item"><span><b>Expense growth</b><small>Below revenue growth</small></span><b class="good">+4.8%</b></div>
+          <div class="health-item"><span><b>Cash runway</b><small>Target is 3+ months</small></span><b>3.9 mo</b></div>
+          <div class="insight">💡 <span><b>Insight:</b> Revenue is growing faster than expenses. You could safely increase your marketing budget by about $1,200/month.</span></div>
+        </article>
+      </div>
+    </section>
+
+    <section id="transactionsView" class="view hidden">
+      <div class="panel">
+        <div class="panel-head"><div><h2>Transactions</h2><p>Search, filter, and review business activity.</p></div><div class="filters"><select id="categoryFilter"><option value="all">All categories</option><option>Revenue</option><option>Payroll</option><option>Marketing</option><option>Rent</option><option>Software</option><option>Supplies</option></select><select id="typeFilter"><option value="all">All types</option><option value="income">Income</option><option value="expense">Expense</option></select></div></div>
+        <div class="table-wrap"><table><thead><tr><th>Date</th><th>Description</th><th>Category</th><th>Type</th><th>Status</th><th class="right">Amount</th></tr></thead><tbody id="transactionsBody"></tbody></table></div>
+      </div>
+    </section>
+
+    <section id="analyticsView" class="view hidden">
+      <div class="analytics-cards">
+        <article class="panel"><p>Gross margin</p><h2>56.0%</h2><span class="trend positive">↑ 3.1% vs last year</span></article>
+        <article class="panel"><p>Avg. monthly revenue</p><h2>$46,840</h2><span class="trend positive">↑ 8.7%</span></article>
+        <article class="panel"><p>Customer concentration</p><h2>31%</h2><span class="trend neutral">Top customer share</span></article>
+      </div>
+      <article class="panel large-analytics"><div class="panel-head"><div><h2>Revenue trend</h2><p>12-month performance</p></div></div><canvas id="revenueChart" height="300"></canvas></article>
+    </section>
+
+    <section id="budgetView" class="view hidden">
+      <div class="panel"><div class="panel-head"><div><h2>Monthly budget</h2><p>September 2026 spending plan</p></div><button class="primary-btn" id="editBudgetBtn">Edit budget</button></div><div id="budgetList" class="budget-list"></div></div>
+    </section>
+  </main>
+
+  <dialog id="transactionModal">
+    <form method="dialog" id="transactionForm">
+      <div class="modal-head"><h2>Add transaction</h2><button class="close" value="cancel">×</button></div>
+      <label>Description<input name="description" required placeholder="e.g. Client payment"></label>
+      <div class="form-grid"><label>Amount<input name="amount" type="number" step="0.01" min="0" required></label><label>Type<select name="type"><option value="income">Income</option><option value="expense">Expense</option></select></label></div>
+      <label>Category<select name="category"><option>Revenue</option><option>Payroll</option><option>Marketing</option><option>Rent</option><option>Software</option><option>Supplies</option></select></label>
+      <label>Date<input name="date" type="date" required></label>
+      <button class="primary-btn full" value="default">Save transaction</button>
+    </form>
+  </dialog>
+  <script src="app.js"></script>
+</body>
+</html>
